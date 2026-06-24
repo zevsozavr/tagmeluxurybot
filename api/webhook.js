@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         chat_id: chatId,
-        text: '✦ Welcome to Certified Clo\n\nDiscover quiet luxury — browse our collection of handpicked essentials.',
+        text: '✦ Welcome to ELITE\n\nDiscover luxury outerwear and accessories — curated for the modern explorer.',
         reply_markup: {
           inline_keyboard: [[
             { text: 'Open Boutique', web_app: { url: webAppUrl } }

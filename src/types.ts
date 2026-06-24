@@ -16,6 +16,15 @@ export interface CartItem extends Product {
   quantity: number;
 }
 
+export interface Offer {
+  id: string;
+  title: string;
+  description: string;
+  discount: number;
+  code: string;
+  active: boolean;
+}
+
 export interface Category {
   id: string;
   name: string;

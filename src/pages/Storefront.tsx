@@ -1,99 +1,86 @@
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
-import { CategoryCard } from '../components/CategoryCard';
 import { ProductCard } from '../components/ProductCard';
 import { BottomBar } from '../components/BottomBar';
-import { categories, products } from '../data';
+import { Glass } from '../components/Glass';
+import { Icon } from '../components/Icon';
+import { useCart } from '../context/CartContext';
+import { useData } from '../context/DataContext';
 
 export function Storefront() {
   const navigate = useNavigate();
+  const { totalItems } = useCart();
+  const { products } = useData();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-background)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
       <Header right={
-        <button onClick={() => navigate('/cart')} style={{
-          width: '36px', height: '36px', borderRadius: '50%',
-          background: 'var(--glass-bg)', border: '1px solid var(--color-outline-variant)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '16px', cursor: 'pointer',
-        }}>
-          ◈
+        <button onClick={() => navigate('/cart')} style={{ color: 'var(--primary)', position: 'relative', display: 'flex', padding: 4 }}>
+          <Icon name="shopping_bag" style={{ fontSize: 24 }} />
+          {totalItems > 0 && (
+            <span style={{ position: 'absolute', top: 0, right: 0, width: 8, height: 8, borderRadius: '50%', background: 'var(--primary-container)' }} />
+          )}
         </button>
       } />
 
-      <main style={{ flex: 1, overflow: 'auto', paddingBottom: 'var(--safe-area-bottom)' }}>
-        <section style={{ margin: '0 var(--container-padding)', marginTop: '20px' }}>
-          <div
-            style={{
-              borderRadius: 'var(--rounded-xl)',
-              overflow: 'hidden',
-              aspectRatio: '16 / 9',
-              background: 'var(--color-surface-container-low)',
-              position: 'relative',
-              border: '1px solid var(--color-outline-variant)',
-            }}
-          >
-            <img
-              src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80"
-              alt="Spring Collection"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to top, rgba(11,19,38,0.9) 0%, transparent 60%)',
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                padding: '24px 20px',
-              }}
-            >
-              <span style={{ font: 'var(--typography-label-caps)', color: 'var(--color-primary)', marginBottom: '4px', display: 'block' }}>
-                NEW SEASON
-              </span>
-              <h2 style={{ font: 'var(--typography-display-lg)', fontSize: '32px', color: '#fff', marginBottom: '4px' }}>
-                Spring Collection
-              </h2>
-              <p style={{ font: 'var(--typography-body-lg)', color: 'var(--color-on-surface-variant)' }}>
-                Discover the season's essentials
-              </p>
+      <main style={{ flex: 1, overflow: 'auto', position: 'relative', zIndex: 10, paddingTop: 16, paddingBottom: 96 }}>
+        <div style={{ padding: '0 var(--pad)' }}>
+          <div style={{ font: 'var(--font-label)', color: 'var(--primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Storefront</div>
+
+          {/* Hero */}
+          <section style={{
+            position: 'relative', height: 420, borderRadius: 'var(--rounded-xl)',
+            overflow: 'hidden', marginTop: 8,
+          }}>
+            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80" alt=""
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11,19,38,0.8), transparent)' }} />
+            <Glass glow style={{ position: 'absolute', bottom: 24, left: 24, right: 24, padding: 24, borderRadius: 'var(--rounded-lg)' }}>
+              <p style={{ font: 'var(--font-label)', color: 'var(--primary)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 4 }}>Winter Collection</p>
+              <h2 style={{ font: 'var(--font-display)', color: 'var(--on-surface)', marginBottom: 16 }}>NEW SEASON</h2>
+              <button onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
+                style={{ width: '100%', background: 'var(--primary)', color: 'var(--on-primary)', padding: '12px 0', borderRadius: 'var(--radius-full)', font: 'var(--font-label)', letterSpacing: '0.1em', textTransform: 'uppercase', border: 'none' }}>
+                EXPLORE NOW
+              </button>
+            </Glass>
+          </section>
+
+          {/* Products */}
+          <section style={{ marginTop: 32 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+              <h3 style={{ font: 'var(--font-headline)' }}>Essentials</h3>
+              <span style={{ font: 'var(--font-label)', color: 'var(--primary)', borderBottom: '1px solid rgba(197,234,255,0.3)', paddingBottom: 2 }}>View All</span>
             </div>
-          </div>
-        </section>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--gutter)' }}>
+              {products.slice(0, 4).map((p) => (
+                <ProductCard key={p.id} product={p} onClick={() => navigate(`/product/${p.id}`)} />
+              ))}
+            </div>
+          </section>
 
-        <section style={{ marginTop: '32px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 var(--container-padding)', marginBottom: '12px' }}>
-            <h2 style={{ font: 'var(--typography-headline-sm)' }}>Categories</h2>
-            <button style={{ font: 'var(--typography-label-caps)', color: 'var(--color-primary)' }}>
-              View All
-            </button>
-          </div>
-          <div style={{ display: 'flex', gap: '12px', overflow: 'auto', padding: '0 var(--container-padding)', scrollbarWidth: 'none' }}>
-            {categories.map((cat) => (
-              <CategoryCard key={cat.id} category={cat} onClick={() => navigate('/')} />
-            ))}
-          </div>
-        </section>
-
-        <section style={{ marginTop: '32px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 var(--container-padding)', marginBottom: '12px' }}>
-            <h2 style={{ font: 'var(--typography-headline-sm)' }}>New In</h2>
-            <button style={{ font: 'var(--typography-label-caps)', color: 'var(--color-primary)' }}>
-              View All
-            </button>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--grid-gutter)', padding: '0 var(--container-padding)' }}>
-            {products.slice(0, 4).map((p) => (
-              <ProductCard key={p.id} product={p} onClick={() => navigate(`/product/${p.id}`)} />
-            ))}
-          </div>
-        </section>
+          {/* Newsletter */}
+          <section style={{ marginTop: 40 }}>
+            <Glass card glow style={{ padding: 32, borderRadius: 'var(--rounded-xl)', textAlign: 'center' }}>
+              <h4 style={{ font: 'var(--font-headline)', marginBottom: 8 }}>Join the Inner Circle</h4>
+              <p style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)', marginBottom: 24 }}>
+                Early access to limited drops and exclusive arctic experiences.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <input placeholder="Email Address" type="email"
+                  style={{
+                    width: '100%', padding: '12px 24px', borderRadius: 'var(--radius-full)',
+                    background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                    color: 'var(--on-surface)', fontSize: 14,
+                  }} />
+                <button style={{
+                  width: '100%', background: 'var(--primary)', color: 'var(--on-primary)',
+                  padding: '12px 0', borderRadius: 'var(--radius-full)',
+                  font: 'var(--font-label)', fontWeight: 600, border: 'none',
+                }}>SUBSCRIBE</button>
+              </div>
+            </Glass>
+          </section>
+        </div>
       </main>
 
       <BottomBar />

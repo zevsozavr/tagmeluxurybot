@@ -1,68 +1,67 @@
 :root {
-  --color-primary: #afc6ff;
-  --color-on-primary: #002d6d;
-  --color-primary-container: #528dff;
-  --color-on-primary-container: #00275f;
-  --color-inverse-primary: #0059c7;
+  --bg: #0b1326;
+  --surface: #0b1326;
+  --surface-low: #131b2e;
+  --surface-container: #171f33;
+  --surface-high: #222a3d;
+  --surface-highest: #2d3449;
+  --on-surface: #dae2fd;
+  --on-surface-variant: #bec8ce;
+  --primary: #c5eaff;
+  --primary-dim: #7bd1fa;
+  --primary-container: #7dd3fc;
+  --on-primary: #003547;
+  --on-primary-container: #005b78;
+  --tertiary: #ffdfba;
+  --tertiary-dim: #fcba5e;
+  --outline: #899298;
+  --outline-variant: #3f484e;
+  --error: #ffb4ab;
+  --error-container: #93000a;
+  --on-error: #690005;
 
-  --color-secondary: #ffb4a5;
-  --color-on-secondary: #650b00;
-  --color-secondary-container: #c22002;
-  --color-on-secondary-container: #ffd7d0;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-card-bg: rgba(255, 255, 255, 0.08);
+  --glass-card-border: rgba(255, 255, 255, 0.15);
 
-  --color-tertiary: #d1bcff;
-  --color-on-tertiary: #3c0090;
-  --color-tertiary-container: #a178ff;
-  --color-on-tertiary-container: #34007f;
+  --font-display: 700 32px/40px 'Inter', sans-serif;
+  --font-headline: 600 24px/32px 'Inter', sans-serif;
+  --font-headline-sm: 600 20px/28px 'Inter', sans-serif;
+  --font-body: 400 16px/24px 'Inter', sans-serif;
+  --font-body-sm: 400 14px/20px 'Inter', sans-serif;
+  --font-label: 500 12px/16px 'Inter', sans-serif;
+  --font-label-lg: 600 14px/16px 'Inter', sans-serif;
 
-  --color-surface: #0b1326;
-  --color-surface-dim: #0b1326;
-  --color-surface-bright: #31394d;
-  --color-surface-container-lowest: #060e20;
-  --color-surface-container-low: #131b2e;
-  --color-surface-container: #171f33;
-  --color-surface-container-high: #222a3d;
-  --color-surface-container-highest: #2d3449;
+  --ls-display: -0.02em;
+  --ls-headline: -0.01em;
+  --ls-label: 0.05em;
 
-  --color-on-surface: #dae2fd;
-  --color-on-surface-variant: #c2c6d7;
-  --color-inverse-surface: #dae2fd;
-  --color-inverse-on-surface: #283044;
+  --rounded: 4px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-2xl: 24px;
+  --radius-full: 9999px;
 
-  --color-outline: #8c90a0;
-  --color-outline-variant: #424754;
+  --space-unit: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
 
-  --color-error: #ffb4ab;
-  --color-error-container: #93000a;
-  --color-on-error: #690005;
-  --color-on-error-container: #ffdad6;
-
-  --color-background: #0b1326;
-  --color-on-background: #dae2fd;
-
-  --gradient-primary: linear-gradient(135deg, #528dff, #0059c7);
-  --gradient-secondary: linear-gradient(135deg, #ff4d2d, #c22002);
-  --gradient-card: linear-gradient(135deg, rgba(82, 141, 255, 0.1), rgba(161, 120, 255, 0.05));
-  --glass-bg: rgba(19, 27, 46, 0.8);
-
-  --typography-display-lg: 800 40px/48px 'Plus Jakarta Sans', sans-serif;
-  --typography-display-lg-ls: -0.02em;
-  --typography-headline-md: 700 24px/32px 'Plus Jakarta Sans', sans-serif;
-  --typography-headline-sm: 700 20px/28px 'Plus Jakarta Sans', sans-serif;
-  --typography-body-lg: 400 16px/24px 'Plus Jakarta Sans', sans-serif;
-  --typography-body-sm: 400 14px/20px 'Plus Jakarta Sans', sans-serif;
-  --typography-label-caps: 600 12px/16px 'Space Grotesk', sans-serif;
-  --typography-stat-value: 700 32px/40px 'Space Grotesk', sans-serif;
-
-  --rounded-sm: 4px;
-  --rounded: 8px;
-  --rounded-md: 12px;
-  --rounded-lg: 16px;
-  --rounded-xl: 24px;
-  --rounded-full: 9999px;
-
-  --container-padding: 16px;
-  --stack-gap: 12px;
-  --grid-gutter: 16px;
-  --safe-area-bottom: 32px;
+  --pad: 24px;
+  --gutter: 16px;
+  --safe-bottom: 32px;
 }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font:var(--font-body);color:var(--on-surface);background:var(--bg)}
+#root{min-height:100%;display:flex;flex-direction:column}
+img{max-width:100%;display:block}
+button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
+a{text-decoration:none;color:inherit}
+input{font:inherit;color:inherit;border:none;outline:none}
+::-webkit-scrollbar{width:0;height:0}

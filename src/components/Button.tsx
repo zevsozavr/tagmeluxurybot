@@ -1,53 +1,46 @@
 import type { ButtonHTMLAttributes } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: 'primary' | 'glass' | 'ghost';
   fullWidth?: boolean;
   glow?: boolean;
 }
 
 export function Button({ variant = 'primary', fullWidth, glow, style, children, ...props }: Props) {
   const base: React.CSSProperties = {
-    font: 'var(--typography-label-caps)',
-    letterSpacing: '0.1em',
+    font: 'var(--font-label-lg)',
+    letterSpacing: '0.05em',
     textTransform: 'uppercase',
     padding: '14px 24px',
-    borderRadius: 'var(--rounded-md)',
+    borderRadius: 'var(--rounded-lg)',
     transition: 'all 0.2s',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '8px',
-    position: 'relative',
-    overflow: 'hidden',
+    gap: 8,
   };
 
   const variants: Record<string, React.CSSProperties> = {
     primary: {
-      background: 'var(--gradient-primary)',
-      color: '#fff',
-      ...(glow ? { boxShadow: '0 0 20px rgba(82,141,255,0.3)' } : {}),
+      background: 'var(--primary)',
+      color: 'var(--on-primary)',
+      ...(glow ? { boxShadow: '0 0 20px rgba(123,209,250,0.3)' } : {}),
     },
-    secondary: {
-      background: 'var(--glass-bg)',
-      color: 'var(--color-on-surface)',
-      border: '1px solid var(--color-outline-variant)',
-      backdropFilter: 'blur(12px)',
+    glass: {
+      background: 'rgba(255,255,255,0.08)',
+      color: 'var(--on-surface)',
+      border: '1px solid rgba(255,255,255,0.1)',
+      backdropFilter: 'blur(8px)',
     },
     ghost: {
       background: 'transparent',
-      color: 'var(--color-on-surface-variant)',
+      color: 'var(--on-surface-variant)',
     },
   };
 
   return (
     <button
-      style={{
-        ...base,
-        ...variants[variant],
-        ...(fullWidth ? { width: '100%' } : {}),
-        ...style,
-      }}
+      style={{ ...base, ...variants[variant], ...(fullWidth ? { width: '100%' } : {}), ...style }}
       {...props}
     >
       {children}

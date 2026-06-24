@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
+import { Glass } from '../components/Glass';
 import { useCart } from '../context/CartContext';
 
 const tg = window.Telegram?.WebApp;
@@ -24,123 +25,38 @@ export function Checkout() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const orderData = {
-      name,
-      phone,
-      address,
-      items: items.map((i) => ({
-        id: i.id, name: i.name, size: i.selectedSize,
-        color: i.selectedColor, quantity: i.quantity, price: i.price,
-      })),
-      total: totalPrice,
-    };
-
-    if (tg) {
-      tg.sendData(JSON.stringify(orderData));
-      tg.HapticFeedback?.notificationOccurred('success');
-    }
-
-    fetch(`/api/order`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ initData: tg?.initData || '', order: orderData }),
-    }).catch(() => {});
-
+    const orderData = { name, phone, address, items: items.map((i) => ({ id: i.id, name: i.name, size: i.selectedSize, color: i.selectedColor, quantity: i.quantity, price: i.price })), total: totalPrice };
+    if (tg) { tg.sendData(JSON.stringify(orderData)); tg.HapticFeedback?.notificationOccurred('success'); }
+    fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ initData: tg?.initData || '', order: orderData }) }).catch(() => {});
     clearCart();
     navigate('/order-confirmed');
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-background)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
       <Header showBack title="Checkout" />
-
-      <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--container-padding)' }}>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <main style={{ flex: 1, overflow: 'auto', position: 'relative', zIndex: 10, padding: '24px var(--pad)', paddingBottom: 32 }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div>
-            <label style={{ font: 'var(--typography-label-caps)', display: 'block', marginBottom: '6px', color: 'var(--color-on-surface-variant)' }}>
-              Full Name
-            </label>
-            <input
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
-              style={{
-                width: '100%',
-                padding: '14px 16px',
-                borderRadius: 'var(--rounded-md)',
-                border: '1px solid var(--color-outline-variant)',
-                background: 'var(--color-surface-container-low)',
-                font: 'var(--typography-body-lg)',
-                color: 'var(--color-on-surface)',
-              }}
-            />
+            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Full Name</label>
+            <input required value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name"
+              style={{ width: '100%', padding: '14px 16px', borderRadius: 'var(--rounded-lg)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', font: 'var(--font-body)', color: 'var(--on-surface)', backdropFilter: 'blur(8px)' }} />
           </div>
           <div>
-            <label style={{ font: 'var(--typography-label-caps)', display: 'block', marginBottom: '6px', color: 'var(--color-on-surface-variant)' }}>
-              Phone
-            </label>
-            <input
-              required
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+1 (555) 000-0000"
-              style={{
-                width: '100%',
-                padding: '14px 16px',
-                borderRadius: 'var(--rounded-md)',
-                border: '1px solid var(--color-outline-variant)',
-                background: 'var(--color-surface-container-low)',
-                font: 'var(--typography-body-lg)',
-                color: 'var(--color-on-surface)',
-              }}
-            />
+            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Phone</label>
+            <input required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+1 (555) 000-0000"
+              style={{ width: '100%', padding: '14px 16px', borderRadius: 'var(--rounded-lg)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', font: 'var(--font-body)', color: 'var(--on-surface)', backdropFilter: 'blur(8px)' }} />
           </div>
           <div>
-            <label style={{ font: 'var(--typography-label-caps)', display: 'block', marginBottom: '6px', color: 'var(--color-on-surface-variant)' }}>
-              Shipping Address
-            </label>
-            <input
-              required
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Street, City, ZIP"
-              style={{
-                width: '100%',
-                padding: '14px 16px',
-                borderRadius: 'var(--rounded-md)',
-                border: '1px solid var(--color-outline-variant)',
-                background: 'var(--color-surface-container-low)',
-                font: 'var(--typography-body-lg)',
-                color: 'var(--color-on-surface)',
-              }}
-            />
+            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Shipping Address</label>
+            <input required value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Street, City, ZIP"
+              style={{ width: '100%', padding: '14px 16px', borderRadius: 'var(--rounded-lg)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', font: 'var(--font-body)', color: 'var(--on-surface)', backdropFilter: 'blur(8px)' }} />
           </div>
-
-          <div
-            style={{
-              padding: '16px',
-              borderRadius: 'var(--rounded-lg)',
-              background: 'var(--glass-bg)',
-              border: '1px solid var(--color-outline-variant)',
-              backdropFilter: 'blur(12px)',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <span style={{ font: 'var(--typography-body-lg)' }}>Items ({totalItems})</span>
-              <span style={{ font: 'var(--typography-body-lg)' }}>${totalPrice}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <span style={{ font: 'var(--typography-body-lg)' }}>Shipping</span>
-              <span style={{ color: 'var(--color-primary)', font: 'var(--typography-body-lg)' }}>Free</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid var(--color-outline-variant)' }}>
-              <span style={{ font: 'var(--typography-headline-sm)' }}>Total</span>
-              <span style={{ font: 'var(--typography-headline-sm)', color: 'var(--color-primary)' }}>${totalPrice}</span>
-            </div>
-          </div>
-
+          <Glass card style={{ padding: 16, borderRadius: 'var(--rounded-lg)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ font: 'var(--font-body)' }}>Items ({totalItems})</span><span style={{ font: 'var(--font-body)' }}>${totalPrice.toLocaleString()}</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ font: 'var(--font-body)' }}>Shipping</span><span style={{ color: 'var(--primary)', font: 'var(--font-body)' }}>Free</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--glass-border)', paddingTop: 8 }}><span style={{ font: 'var(--font-headline)' }}>Total</span><span style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>${totalPrice.toLocaleString()}</span></div>
+          </Glass>
           <Button fullWidth glow type="submit">Place Order</Button>
         </form>
       </main>

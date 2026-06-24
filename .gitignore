@@ -31,3 +31,8 @@ server/node_modules
 # OS
 Thumbs.db
 .DS_Store
+
+# Stitch generated
+.stitch-mcp/
+stitch-output/
+fetch-stitch.mjs

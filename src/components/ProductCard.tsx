@@ -7,64 +7,36 @@ interface Props {
 
 export function ProductCard({ product, onClick }: Props) {
   return (
-    <article
-      onClick={onClick}
-      style={{
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--stack-gap)',
-      }}
-    >
-      <div
-        style={{
-          aspectRatio: '3 / 4',
-          borderRadius: 'var(--rounded-lg)',
-          overflow: 'hidden',
-          background: 'var(--color-surface-container-low)',
-          border: '1px solid var(--color-outline-variant)',
-          position: 'relative',
-        }}
-      >
-        <img
-          src={product.image}
-          alt={product.name}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          loading="lazy"
+    <article onClick={onClick} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+      <div style={{
+        position: 'relative', height: 320, borderRadius: 'var(--rounded-xl)',
+        overflow: 'hidden', background: 'rgba(255,255,255,0.05)',
+        backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.1)',
+      }}>
+        <img src={product.image} alt={product.name} loading="lazy"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
         />
-        {product.originalPrice && (
-          <span
-            style={{
-              position: 'absolute',
-              top: '8px',
-              left: '8px',
-              background: 'var(--gradient-secondary)',
-              color: '#fff',
-              font: 'var(--typography-label-caps)',
-              padding: '4px 8px',
-              borderRadius: 'var(--rounded-full)',
-            }}
-          >
-            SALE
-          </span>
-        )}
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-        <span style={{ font: 'var(--typography-label-caps)', color: 'var(--color-on-surface-variant)' }}>
-          {product.category}
-        </span>
-        <h3 style={{ font: 'var(--typography-body-lg)', fontWeight: 600 }}>
-          {product.name}
-        </h3>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ font: 'var(--typography-body-lg)', fontWeight: 700, color: 'var(--color-primary)' }}>
-            ${product.price}
-          </span>
-          {product.originalPrice && (
-            <span style={{ textDecoration: 'line-through', color: 'var(--color-on-surface-variant)', font: 'var(--typography-body-sm)' }}>
-              ${product.originalPrice}
-            </span>
-          )}
+        <div style={{
+          position: 'absolute', left: 16, right: 16, bottom: 16,
+          background: 'var(--glass-card-bg)', backdropFilter: 'blur(20px)',
+          border: '1px solid var(--glass-card-border)',
+          borderRadius: 'var(--rounded-lg)', padding: 12,
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        }}>
+          <div>
+            <p style={{ font: 'var(--font-headline-sm)', fontSize: 14, color: 'var(--on-surface)' }}>{product.name}</p>
+            <p style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)' }}>
+              ${product.price.toLocaleString()}
+              {product.originalPrice && <span style={{ textDecoration: 'line-through', marginLeft: 8, opacity: 0.6 }}>${product.originalPrice.toLocaleString()}</span>}
+            </p>
+          </div>
+          <button style={{
+            width: 40, height: 40, borderRadius: '50%', background: 'var(--primary)',
+            color: 'var(--on-primary)', display: 'flex', alignItems: 'center',
+            justifyContent: 'center', border: 'none',
+          }}>
+            <span className="material-symbols-outlined" style={{ fontSize: 20 }}>add</span>
+          </button>
         </div>
       </div>
     </article>

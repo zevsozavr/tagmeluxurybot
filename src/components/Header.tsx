@@ -4,55 +4,32 @@ interface Props {
   title?: string;
   showBack?: boolean;
   right?: React.ReactNode;
+  onBack?: () => void;
 }
 
-export function Header({ title, showBack, right }: Props) {
+export function Header({ title, showBack, right, onBack }: Props) {
   const navigate = useNavigate();
 
   return (
-    <header
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '12px var(--container-padding)',
-        borderBottom: '1px solid var(--color-outline-variant)',
-        background: 'var(--glass-bg)',
-        backdropFilter: 'blur(16px)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
-      }}
-    >
-      <div style={{ width: '40px' }}>
+    <header style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '12px var(--pad)', height: 64, position: 'sticky', top: 0, zIndex: 60,
+      background: 'rgba(11,19,38,0.4)', backdropFilter: 'blur(24px)',
+      borderBottom: '1px solid rgba(255,255,255,0.1)',
+    }}>
+      <div style={{ width: 40, display: 'flex', alignItems: 'center' }}>
         {showBack && (
-          <button
-            onClick={() => navigate(-1)}
-            style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '50%',
-              background: 'var(--glass-bg)',
-              border: '1px solid var(--color-outline-variant)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '16px',
-              cursor: 'pointer',
-            }}
-          >
-            ←
+          <button onClick={onBack || (() => navigate(-1))} style={{ color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+            <span className="material-symbols-outlined" style={{ fontSize: 24 }}>arrow_back</span>
           </button>
         )}
       </div>
       {title ? (
-        <h1 style={{ font: 'var(--typography-headline-sm)', textAlign: 'center' }}>{title}</h1>
+        <h1 style={{ font: 'var(--font-headline)', color: 'var(--primary)', letterSpacing: 'var(--ls-headline)' }}>{title}</h1>
       ) : (
-        <span style={{ font: 'var(--typography-headline-sm)', letterSpacing: '0.05em', background: 'var(--gradient-primary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          CERTIFIED CLO
-        </span>
+        <span style={{ font: 'var(--font-display)', color: 'var(--primary)', letterSpacing: 'var(--ls-display)', fontSize: 22 }}>ELITE</span>
       )}
-      <div style={{ width: '40px', display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={{ width: 40, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         {right}
       </div>
     </header>
