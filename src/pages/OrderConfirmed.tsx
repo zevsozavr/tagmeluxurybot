@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Glass } from '../components/Glass';
+import { useLang } from '../context/LangContext';
 
 export function OrderConfirmed() {
   const navigate = useNavigate();
+  const { t } = useLang();
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
@@ -23,36 +25,36 @@ export function OrderConfirmed() {
           <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24", color: 'var(--primary)', fontSize: 40 }}>check_circle</span>
         </div>
 
-        <h1 style={{ font: 'var(--font-display)', fontSize: 26, textTransform: 'uppercase', letterSpacing: '-0.02em', marginBottom: 8 }}>Замовлення підтверджено</h1>
+        <h1 style={{ font: 'var(--font-display)', fontSize: 26, textTransform: 'uppercase', letterSpacing: '-0.02em', marginBottom: 8 }}>{t('order.title')}</h1>
         <p style={{ font: 'var(--font-body)', color: 'var(--on-surface-variant)', marginBottom: 24, maxWidth: 300, textAlign: 'center' }}>
-          Дякуємо! Ми зв'яжемося з вами найближчим часом.
+          {t('order.message')}
         </p>
 
         <Glass glow card style={{ width: '100%', borderRadius: 'var(--rounded-lg)', padding: 24, marginBottom: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: 12, marginBottom: 16 }}>
-            <span style={{ font: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--on-surface-variant)' }}>Номер</span>
+            <span style={{ font: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--on-surface-variant)' }}>{t('order.number')}</span>
             <span style={{ font: 'var(--font-label-lg)', color: 'var(--primary)' }}>#CC-{Math.floor(Math.random() * 90000) + 10000}</span>
           </div>
 
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 16 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, color: 'var(--on-surface-variant)', font: 'var(--font-label)' }}>
-              <span>Сума</span>
-              <span style={{ color: 'var(--on-surface)' }}>Включено</span>
+              <span>{t('order.amount')}</span>
+              <span style={{ color: 'var(--on-surface)' }}>{t('order.included')}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, color: 'var(--on-surface-variant)', font: 'var(--font-label)' }}>
-              <span>Доставка</span>
-              <span style={{ color: 'var(--primary)', opacity: 0.8 }}>Безкоштовно</span>
+              <span>{t('checkout.delivery')}</span>
+              <span style={{ color: 'var(--primary)', opacity: 0.8 }}>{t('order.free')}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 12, marginTop: 8 }}>
-              <span style={{ font: 'var(--font-label-lg)' }}>Всього</span>
-              <span style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>Списано з карти</span>
+              <span style={{ font: 'var(--font-label-lg)' }}>{t('checkout.total')}</span>
+              <span style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>{t('order.charged')}</span>
             </div>
           </div>
         </Glass>
 
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Button fullWidth glow variant="primary" onClick={() => navigate('/')} style={{ borderRadius: 'var(--rounded-lg)' }}>
-            Продовжити
+            {t('order.continue')}
           </Button>
         </div>
       </main>

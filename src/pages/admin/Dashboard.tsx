@@ -4,30 +4,33 @@ import { Glass } from '../../components/Glass';
 import { Icon } from '../../components/Icon';
 import { useData } from '../../context/DataContext';
 import { useAuth } from '../../context/AuthContext';
+import { useLang } from '../../context/LangContext';
 
 export function AdminDashboard() {
   const navigate = useNavigate();
   const { products, offers } = useData();
   const { isAdmin } = useAuth();
+  const { t } = useLang();
 
   if (!isAdmin) {
     return (
       <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}>
-        <p>Access denied.</p>
+        <p>{t('admin.access.denied')}</p>
       </div>
     );
   }
 
   const cards = [
-    { label: 'Products', value: products.length, icon: 'inventory_2', path: '/admin/products', color: 'var(--primary)' },
-    { label: 'Active Offers', value: offers.filter((o) => o.active).length, icon: 'local_offer', path: '/admin/offers', color: 'var(--tertiary-dim)' },
+    { label: t('admin.products'), value: products.length, icon: 'inventory_2', path: '/admin/products', color: 'var(--primary)' },
+    { label: t('admin.offers'), value: offers.filter((o) => o.active).length, icon: 'local_offer', path: '/admin/offers', color: 'var(--tertiary-dim)' },
+    { label: t('admin.photos.title'), value: products.length, icon: 'photo_library', path: '/admin/photos', color: 'var(--primary)' },
   ];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
-      <Header showBack title="Admin" onBack={() => navigate('/settings')} />
+      <Header showBack title={t('admin.title')} onBack={() => navigate('/settings')} />
       <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--pad)', position: 'relative', zIndex: 10 }}>
-        <h2 style={{ font: 'var(--font-headline)', marginBottom: 20 }}>Dashboard</h2>
+        <h2 style={{ font: 'var(--font-headline)', marginBottom: 20 }}>{t('admin.dashboard')}</h2>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
           {cards.map((card) => (

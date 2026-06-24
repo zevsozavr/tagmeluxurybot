@@ -5,12 +5,14 @@ import { Button } from '../components/Button';
 import { Glass } from '../components/Glass';
 import { useCart } from '../context/CartContext';
 import { useData } from '../context/DataContext';
+import { useLang } from '../context/LangContext';
 
 export function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItem } = useCart();
   const { products } = useData();
+  const { t } = useLang();
   const product = products.find((p) => p.id === id);
 
   const [size, setSize] = useState(product?.sizes[0] || '');
@@ -27,8 +29,8 @@ export function ProductDetail() {
   if (!product) {
     return (
       <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}>
-        <p style={{ marginBottom: 16 }}>Товар не знайдено</p>
-        <Button variant="glass" onClick={() => navigate('/')}>Назад</Button>
+        <p style={{ marginBottom: 16 }}>{t('product.notfound')}</p>
+        <Button variant="glass" onClick={() => navigate('/')}>{t('product.back')}</Button>
       </div>
     );
   }
@@ -69,7 +71,7 @@ export function ProductDetail() {
           <Glass card style={{ borderRadius: 32, padding: 32, display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
-                <span style={{ font: 'var(--font-label)', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>{product.category}</span>
+                <span style={{ font: 'var(--font-label)', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>{t('categories.' + product.category)}</span>
                 <h2 style={{ font: 'var(--font-display)', color: 'var(--on-surface)', marginTop: 4, fontSize: 28 }}>{product.name}</h2>
               </div>
               <div style={{ textAlign: 'right' }}>
@@ -84,7 +86,7 @@ export function ProductDetail() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <span style={{ font: 'var(--font-label)', color: 'var(--on-surface)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                Колір — {color}
+                {t('product.color')} — {color}
               </span>
               <div style={{ display: 'flex', gap: 12 }}>
                 {product.colors.map((c) => (
@@ -101,7 +103,7 @@ export function ProductDetail() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <span style={{ font: 'var(--font-label)', color: 'var(--on-surface)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                Розмір — {size}
+                {t('product.size')} — {size}
               </span>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 {product.sizes.map((s) => (
@@ -123,7 +125,7 @@ export function ProductDetail() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 8 }}>
               <Button fullWidth glow variant="primary" onClick={handleAdd}>
-                {added ? '✓ В кошику' : `В кошик — ${product.price.toLocaleString()}₴`}
+                {added ? t('product.added') : `${t('product.add')} — ${product.price.toLocaleString()}₴`}
               </Button>
             </div>
           </Glass>

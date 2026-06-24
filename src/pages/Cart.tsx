@@ -5,10 +5,12 @@ import { BottomBar } from '../components/BottomBar';
 import { Glass } from '../components/Glass';
 import { Icon } from '../components/Icon';
 import { useCart } from '../context/CartContext';
+import { useLang } from '../context/LangContext';
 
 export function Cart() {
   const navigate = useNavigate();
   const { items, totalPrice, updateQuantity, removeItem } = useCart();
+  const { t, plural } = useLang();
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
@@ -17,14 +19,14 @@ export function Cart() {
       <main style={{ flex: 1, overflow: 'auto', position: 'relative', zIndex: 10, padding: '0 var(--pad)', paddingTop: 32, paddingBottom: 128 }}>
         {items.length === 0 ? (
           <div style={{ textAlign: 'center', paddingTop: 60 }}>
-            <p style={{ font: 'var(--font-body)', color: 'var(--on-surface-variant)', marginBottom: 16 }}>Кошик порожній</p>
-            <Button variant="glass" onClick={() => navigate('/')}>Продовжити покупки</Button>
+            <p style={{ font: 'var(--font-body)', color: 'var(--on-surface-variant)', marginBottom: 16 }}>{t('cart.empty')}</p>
+            <Button variant="glass" onClick={() => navigate('/')}>{t('cart.continue')}</Button>
           </div>
         ) : (
           <>
             <div style={{ textAlign: 'center', marginBottom: 32 }}>
-              <h1 style={{ font: 'var(--font-display)', color: 'var(--on-surface)', fontSize: 36 }}>Кошик</h1>
-              <p style={{ font: 'var(--font-body)', color: 'var(--on-surface-variant)', marginTop: 8 }}>{items.length} товар{items.length !== 1 ? 'и' : ''}</p>
+              <h1 style={{ font: 'var(--font-display)', color: 'var(--on-surface)', fontSize: 36 }}>{t('cart.title')}</h1>
+              <p style={{ font: 'var(--font-body)', color: 'var(--on-surface-variant)', marginTop: 8 }}>{items.length} {plural(items.length, t('cart.item.one'), t('cart.item.few'), t('cart.item.many'))}</p>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
@@ -44,7 +46,7 @@ export function Cart() {
                             <Icon name="close" style={{ fontSize: 20 }} />
                           </button>
                         </div>
-                        <p style={{ font: 'var(--font-body)', color: 'var(--on-surface-variant)', marginTop: 4 }}>{item.selectedColor} / Розмір {item.selectedSize}</p>
+                        <p style={{ font: 'var(--font-body)', color: 'var(--on-surface-variant)', marginTop: 4 }}>{item.selectedColor} / {t('cart.size')} {item.selectedSize}</p>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                         <Glass style={{ display: 'flex', alignItems: 'center', borderRadius: 'var(--radius-full)', padding: '0 4px' }}>
@@ -65,21 +67,21 @@ export function Cart() {
             </div>
 
             <Glass card style={{ padding: 24, borderRadius: 'var(--rounded-xl)', marginTop: 32 }}>
-              <h3 style={{ font: 'var(--font-label-lg)', textTransform: 'uppercase', letterSpacing: '0.15em', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: 12, marginBottom: 16 }}>Замовлення</h3>
+              <h3 style={{ font: 'var(--font-label-lg)', textTransform: 'uppercase', letterSpacing: '0.15em', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: 12, marginBottom: 16 }}>{t('cart.summary')}</h3>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, color: 'var(--on-surface-variant)', font: 'var(--font-body)' }}>
-                <span>Сума</span>
+                <span>{t('cart.subtotal')}</span>
                 <span style={{ color: 'var(--on-surface)' }}>{totalPrice.toLocaleString()}₴</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16, color: 'var(--on-surface-variant)', font: 'var(--font-body)' }}>
-                <span>Доставка</span>
-                <span style={{ color: 'var(--on-surface)' }}>Розраховується</span>
+                <span>{t('cart.shipping')}</span>
+                <span style={{ color: 'var(--on-surface)' }}>{t('cart.shipping.calc')}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 16, marginBottom: 24 }}>
-                <span style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>Всього</span>
+                <span style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>{t('cart.total')}</span>
                 <span style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>{totalPrice.toLocaleString()}₴</span>
               </div>
               <Button fullWidth glow variant="primary" onClick={() => navigate('/checkout')}>
-                Оформити замовлення
+                {t('cart.checkout')}
                 <Icon name="chat" style={{ fontSize: 20 }} />
               </Button>
             </Glass>

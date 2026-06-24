@@ -6,6 +6,7 @@ import { BottomBar } from '../components/BottomBar';
 import { Glass } from '../components/Glass';
 import { Icon } from '../components/Icon';
 import { useData } from '../context/DataContext';
+import { useLang } from '../context/LangContext';
 
 type SortKey = 'default' | 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc';
 
@@ -13,6 +14,7 @@ export function Products() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { products, categories } = useData();
+  const { t } = useLang();
   const activeCategory = searchParams.get('category') || '';
   const [sort, setSort] = useState<SortKey>('default');
   const [showSort, setShowSort] = useState(false);
@@ -29,18 +31,18 @@ export function Products() {
   }, [products, activeCategory, sort]);
 
   const sortOptions: { key: SortKey; label: string }[] = [
-    { key: 'default', label: 'За замовчуванням' },
-    { key: 'price-asc', label: 'Ціна: від низької' },
-    { key: 'price-desc', label: 'Ціна: від високої' },
-    { key: 'name-asc', label: 'Назва: А-Я' },
-    { key: 'name-desc', label: 'Назва: Я-А' },
+    { key: 'default', label: t('products.sort.default') },
+    { key: 'price-asc', label: t('products.sort.price.asc') },
+    { key: 'price-desc', label: t('products.sort.price.desc') },
+    { key: 'name-asc', label: t('products.sort.name.asc') },
+    { key: 'name-desc', label: t('products.sort.name.desc') },
   ];
 
-  const currentSortLabel = sortOptions.find((o) => o.key === sort)?.label || 'Сортування';
+  const currentSortLabel = sortOptions.find((o) => o.key === sort)?.label || t('products.sort.default');
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
-      <Header showBack title="Товари" />
+      <Header showBack title={t('products.title')} />
 
       <main style={{ flex: 1, overflow: 'auto', position: 'relative', zIndex: 10, padding: '0 var(--pad)', paddingTop: 16, paddingBottom: 96 }}>
         {/* Category filter chips */}
@@ -59,7 +61,7 @@ export function Products() {
                   color: active ? 'var(--on-primary)' : 'var(--on-surface)',
                   font: 'var(--font-label)', cursor: 'pointer', whiteSpace: 'nowrap', fontWeight: active ? 600 : 400,
                 }}>
-                {cat.name}
+                {t('categories.' + cat.name)}
               </button>
             );
           })}
@@ -67,7 +69,7 @@ export function Products() {
 
         {/* Sort + count */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <span style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)' }}>{filtered.length} товарів</span>
+          <span style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)' }}>{filtered.length} {t('products.count')}</span>
           <div style={{ position: 'relative' }}>
             <button onClick={() => setShowSort(!showSort)}
               style={{ display: 'flex', alignItems: 'center', gap: 4, font: 'var(--font-label)', color: 'var(--primary)', cursor: 'pointer', padding: '4px 8px' }}>

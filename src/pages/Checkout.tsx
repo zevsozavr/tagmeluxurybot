@@ -4,12 +4,14 @@ import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import { Glass } from '../components/Glass';
 import { useCart } from '../context/CartContext';
+import { useLang } from '../context/LangContext';
 
 const tg = window.Telegram?.WebApp;
 
 export function Checkout() {
   const navigate = useNavigate();
   const { totalPrice, totalItems, items, clearCart } = useCart();
+  const { t } = useLang();
   const [name, setName] = useState(tg?.initDataUnsafe.user?.first_name || '');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
@@ -34,30 +36,30 @@ export function Checkout() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
-      <Header showBack title="Оформлення" />
+      <Header showBack title={t('cart.checkout')} />
       <main style={{ flex: 1, overflow: 'auto', position: 'relative', zIndex: 10, padding: '24px var(--pad)', paddingBottom: 32 }}>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div>
-            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Ім'я</label>
-            <input required value={name} onChange={(e) => setName(e.target.value)} placeholder="Ваше ім'я"
+            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t('checkout.name')}</label>
+            <input required value={name} onChange={(e) => setName(e.target.value)} placeholder={t('checkout.placeholder.name')}
               style={{ width: '100%', padding: '14px 16px', borderRadius: 'var(--rounded-lg)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', font: 'var(--font-body)', color: 'var(--on-surface)', backdropFilter: 'blur(8px)' }} />
           </div>
           <div>
-            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Телефон</label>
-            <input required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+38 (0XX) XXX-XX-XX"
+            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t('checkout.phone')}</label>
+            <input required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={t('checkout.placeholder.phone')}
               style={{ width: '100%', padding: '14px 16px', borderRadius: 'var(--rounded-lg)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', font: 'var(--font-body)', color: 'var(--on-surface)', backdropFilter: 'blur(8px)' }} />
           </div>
           <div>
-            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Адреса</label>
-            <input required value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Місто, вулиця, дім"
+            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t('checkout.address')}</label>
+            <input required value={address} onChange={(e) => setAddress(e.target.value)} placeholder={t('checkout.placeholder.address')}
               style={{ width: '100%', padding: '14px 16px', borderRadius: 'var(--rounded-lg)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', font: 'var(--font-body)', color: 'var(--on-surface)', backdropFilter: 'blur(8px)' }} />
           </div>
           <Glass card style={{ padding: 16, borderRadius: 'var(--rounded-lg)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ font: 'var(--font-body)' }}>Товари ({totalItems})</span><span style={{ font: 'var(--font-body)' }}>{totalPrice.toLocaleString()}₴</span></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ font: 'var(--font-body)' }}>Доставка</span><span style={{ color: 'var(--primary)', font: 'var(--font-body)' }}>Безкоштовно</span></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--glass-border)', paddingTop: 8 }}><span style={{ font: 'var(--font-headline)' }}>Всього</span><span style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>{totalPrice.toLocaleString()}₴</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ font: 'var(--font-body)' }}>{t('checkout.items')} ({totalItems})</span><span style={{ font: 'var(--font-body)' }}>{totalPrice.toLocaleString()}₴</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ font: 'var(--font-body)' }}>{t('checkout.delivery')}</span><span style={{ color: 'var(--primary)', font: 'var(--font-body)' }}>{t('checkout.free')}</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--glass-border)', paddingTop: 8 }}><span style={{ font: 'var(--font-headline)' }}>{t('checkout.total')}</span><span style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>{totalPrice.toLocaleString()}₴</span></div>
           </Glass>
-          <Button fullWidth glow type="submit">Замовити</Button>
+          <Button fullWidth glow type="submit">{t('checkout.submit')}</Button>
         </form>
       </main>
     </div>
