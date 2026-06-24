@@ -24,6 +24,7 @@ export function AdminDashboard() {
     { label: t('admin.products'), value: products.length, icon: 'inventory_2', path: '/admin/products', color: 'var(--primary)' },
     { label: t('admin.offers'), value: offers.filter((o) => o.active).length, icon: 'local_offer', path: '/admin/offers', color: 'var(--tertiary-dim)' },
     { label: t('admin.photos.title'), value: products.length, icon: 'photo_library', path: '/admin/photos', color: 'var(--primary)' },
+    { label: t('admin.collection'), value: '', icon: 'auto_awesome', path: '/admin/collection', color: 'var(--primary)' },
   ];
 
   return (
@@ -41,7 +42,8 @@ export function AdminDashboard() {
                   <Icon name={card.icon} style={{ color: card.color, fontSize: 28 }} />
                   <span style={{ font: 'var(--font-body)' }}>{card.label}</span>
                 </div>
-                <span style={{ font: 'var(--font-display)', color: card.color, fontSize: 28 }}>{card.value}</span>
+                {card.value !== '' && <span style={{ font: 'var(--font-display)', color: card.color, fontSize: 28 }}>{card.value}</span>}
+                {card.value === '' && <Icon name="chevron_right" style={{ color: 'var(--on-surface-variant)' }} />}
               </div>
             </Glass>
           ))}

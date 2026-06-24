@@ -14,6 +14,7 @@ import { AdminDashboard } from './pages/admin/Dashboard';
 import { AdminProducts } from './pages/admin/Products';
 import { AdminOffers } from './pages/admin/Offers';
 import { AdminPhotos } from './pages/admin/Photos';
+import { AdminCollection } from './pages/admin/Collection';
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
                 <Route path="/admin/products" element={<AdminProducts />} />
                 <Route path="/admin/offers" element={<AdminOffers />} />
                 <Route path="/admin/photos" element={<AdminPhotos />} />
+                <Route path="/admin/collection" element={<AdminCollection />} />
               </Routes>
             </LangProvider>
           </CartProvider>

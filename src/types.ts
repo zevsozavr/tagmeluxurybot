@@ -30,3 +30,10 @@ export interface Category {
   name: string;
   image: string;
 }
+
+export interface Collection {
+  image: string;
+  title: string;
+  subtitle: string;
+  tag: string;
+}

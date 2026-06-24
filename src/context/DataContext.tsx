@@ -1,18 +1,27 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
-import type { Product, Offer, Category } from '../types';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import type { Product, Offer, Category, Collection } from '../types';
+
+const STORAGE_KEY = 'certifiedclo_data';
+
+interface StoredData {
+  products: Product[];
+  offers: Offer[];
+  collection: Collection;
+}
 
 interface DataContextValue {
   products: Product[];
-  setProducts: (p: Product[]) => void;
   addProduct: (p: Product) => void;
   updateProduct: (id: string, p: Partial<Product>) => void;
   deleteProduct: (id: string) => void;
   categories: Category[];
+  addCategory: (name: string) => void;
   offers: Offer[];
-  setOffers: (o: Offer[]) => void;
   addOffer: (o: Offer) => void;
   toggleOffer: (id: string) => void;
   deleteOffer: (id: string) => void;
+  collection: Collection;
+  setCollection: (c: Collection) => void;
 }
 
 const defaultCategories: Category[] = [
@@ -36,24 +45,80 @@ const defaultProducts: Product[] = [
   { id: '8', name: 'Silk Evening Gown', category: 'Dresses', price: 88000, image: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=400&q=80', description: 'Exquisite silk evening gown with a flowing silhouette. Timeless elegance.', sizes: ['XS', 'S', 'M', 'L'], colors: [{ name: 'Ivory', hex: '#fffff0' }, { name: 'Black', hex: '#1a1a1a' }, { name: 'Burgundy', hex: '#800020' }] },
 ];
 
+const defaultCollection: Collection = {
+  image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80',
+  title: 'WINTER DROP',
+  subtitle: 'Нова колекція',
+  tag: 'Магазин',
+};
+
+function loadData(): StoredData | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+
+function saveData(data: StoredData) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
+}
+
+function getNextCategoryId(): string {
+  const cats = loadData() ? defaultCategories : [];
+  return 'c' + (Date.now());
+}
+
 const DataContext = createContext<DataContextValue | null>(null);
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [products, setProducts] = useState<Product[]>(defaultProducts);
-  const [offers, setOffers] = useState<Offer[]>([
+  const saved = loadData();
+
+  const [products, setProducts] = useState<Product[]>(saved?.products || defaultProducts);
+  const [offers, setOffers] = useState<Offer[]>(saved?.offers || [
     { id: 'o1', title: 'Нова колекція', description: 'Знижка 20% на весь верхній одяг', discount: 20, code: 'WINTER20', active: true },
     { id: 'o2', title: 'Безкоштовна доставка', description: 'Безкоштовна доставка при замовленні від 20000₴', discount: 0, code: 'FREESHIP', active: true },
   ]);
+  const [collection, setCollectionState] = useState<Collection>(saved?.collection || defaultCollection);
 
-  const addProduct = (p: Product) => setProducts((prev) => [...prev, p]);
+  const [categories, setCategories] = useState<Category[]>(() => {
+    const existingNames = new Set(saved?.products.map((p) => p.category) || defaultProducts.map((p) => p.category));
+    const extra = defaultCategories.filter((c) => c.name === 'All' || existingNames.has(c.name));
+    saved?.products.forEach((p) => {
+      if (!extra.find((c) => c.name === p.category)) {
+        extra.push({ id: getNextCategoryId(), name: p.category, image: '' });
+      }
+    });
+    return extra.length > 1 ? extra : defaultCategories;
+  });
+
+  useEffect(() => {
+    saveData({ products, offers, collection });
+  }, [products, offers, collection]);
+
+  const addProduct = (p: Product) => {
+    setProducts((prev) => [...prev, p]);
+    setCategories((prev) => {
+      if (prev.find((c) => c.name === p.category)) return prev;
+      return [...prev, { id: getNextCategoryId(), name: p.category, image: '' }];
+    });
+  };
   const updateProduct = (id: string, p: Partial<Product>) => setProducts((prev) => prev.map((x) => x.id === id ? { ...x, ...p } : x));
   const deleteProduct = (id: string) => setProducts((prev) => prev.filter((x) => x.id !== id));
+
+  const addCategory = (name: string) => {
+    setCategories((prev) => {
+      if (prev.find((c) => c.name === name)) return prev;
+      return [...prev, { id: getNextCategoryId(), name, image: '' }];
+    });
+  };
 
   const addOffer = (o: Offer) => setOffers((prev) => [...prev, o]);
   const toggleOffer = (id: string) => setOffers((prev) => prev.map((o) => o.id === id ? { ...o, active: !o.active } : o));
   const deleteOffer = (id: string) => setOffers((prev) => prev.filter((o) => o.id !== id));
 
-  return <DataContext.Provider value={{ products, setProducts, addProduct, updateProduct, deleteProduct, categories: defaultCategories, offers, setOffers, addOffer, toggleOffer, deleteOffer }}>{children}</DataContext.Provider>;
+  const setCollection = (c: Collection) => setCollectionState(c);
+
+  return <DataContext.Provider value={{ products, addProduct, updateProduct, deleteProduct, categories, addCategory, offers, addOffer, toggleOffer, deleteOffer, collection, setCollection }}>{children}</DataContext.Provider>;
 }
 
 export function useData() {

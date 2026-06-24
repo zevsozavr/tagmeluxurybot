@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
@@ -19,6 +19,9 @@ export function ProductDetail() {
   const [color, setColor] = useState(product?.colors[0]?.name || '');
   const [added, setAdded] = useState(false);
   const [scrolled, setScrolled] = useState(0);
+  const [showNegotiate, setShowNegotiate] = useState(false);
+  const [offerPrice, setOfferPrice] = useState('');
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.pageYOffset);
@@ -43,9 +46,40 @@ export function ProductDetail() {
     tg?.HapticFeedback?.notificationOccurred('success');
   };
 
+  const handleNegotiate = () => {
+    if (!offerPrice || !product) return;
+    const msg = `Здравствуйте, хочу предложить ${Number(offerPrice).toLocaleString()}₴ за товар "${product.name}" (${product.selectedSize || size}, ${color}).`;
+    window.open(`https://t.me/certifiedclobot?text=${encodeURIComponent(msg)}`, '_blank');
+    setShowNegotiate(false);
+    setOfferPrice('');
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
       <Header showBack title="" />
+
+      {showNegotiate && (
+        <div ref={overlayRef} onClick={(e) => { if (e.target === overlayRef.current) setShowNegotiate(false); }}
+          style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+          <Glass card style={{ width: '100%', maxWidth: 400, borderRadius: '24px 24px 0 0', padding: 24, paddingBottom: 40, animation: 'slideUp 0.3s ease' }}>
+            <div style={{ width: 40, height: 4, background: 'rgba(255,255,255,0.2)', borderRadius: 2, margin: '0 auto 16px' }} />
+            <h3 style={{ font: 'var(--font-headline)', marginBottom: 16, textAlign: 'center' }}>{t('product.negotiate.title')}</h3>
+            <p style={{ font: 'var(--font-body)', color: 'var(--on-surface-variant)', marginBottom: 16, textAlign: 'center' }}>
+              {t('product.negotiate.subtitle')}
+            </p>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+              <input type="number" value={offerPrice} onChange={(e) => setOfferPrice(e.target.value)}
+                placeholder={t('product.negotiate.placeholder')}
+                style={{ flex: 1, padding: '14px 16px', borderRadius: 'var(--rounded-lg)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', font: 'var(--font-body)', color: 'var(--on-surface)', backdropFilter: 'blur(8px)' }} />
+              <span style={{ display: 'flex', alignItems: 'center', font: 'var(--font-body)', color: 'var(--on-surface-variant)' }}>₴</span>
+            </div>
+            <div style={{ display: 'flex', gap: 12 }}>
+              <Button variant="glass" onClick={() => setShowNegotiate(false)} style={{ flex: 1 }}>{t('product.back')}</Button>
+              <Button fullWidth glow variant="primary" onClick={handleNegotiate} disabled={!offerPrice}>{t('product.negotiate.send')}</Button>
+            </div>
+          </Glass>
+        </div>
+      )}
 
       <main style={{ flex: 1, overflow: 'auto', position: 'relative', zIndex: 10, paddingBottom: 32 }}>
         <section style={{
@@ -126,6 +160,9 @@ export function ProductDetail() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 8 }}>
               <Button fullWidth glow variant="primary" onClick={handleAdd}>
                 {added ? t('product.added') : `${t('product.add')} — ${product.price.toLocaleString()}₴`}
+              </Button>
+              <Button fullWidth variant="glass" onClick={() => { setShowNegotiate(true); setOfferPrice(String(product.price)); }}>
+                {t('product.negotiate')}
               </Button>
             </div>
           </Glass>

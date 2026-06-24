@@ -12,7 +12,7 @@ import { useLang } from '../context/LangContext';
 export function Storefront() {
   const navigate = useNavigate();
   const { totalItems } = useCart();
-  const { products, categories } = useData();
+  const { products, categories, collection } = useData();
   const { t } = useLang();
   const productsRef = useRef<HTMLDivElement>(null);
 
@@ -33,19 +33,19 @@ export function Storefront() {
 
       <main style={{ flex: 1, overflow: 'auto', position: 'relative', zIndex: 10, paddingTop: 16, paddingBottom: 96 }}>
         <div style={{ padding: '0 var(--pad)' }}>
-          <div style={{ font: 'var(--font-label)', color: 'var(--primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>{t('store.tag')}</div>
+          <div style={{ font: 'var(--font-label)', color: 'var(--primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>{collection.tag || t('store.tag')}</div>
 
           {/* Hero */}
           <section style={{
             position: 'relative', height: 420, borderRadius: 'var(--rounded-xl)',
             overflow: 'hidden', marginTop: 8,
           }}>
-            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80" alt=""
+            <img src={collection.image} alt=""
               style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11,19,38,0.8), transparent)' }} />
             <Glass glow style={{ position: 'absolute', bottom: 24, left: 24, right: 24, padding: 24, borderRadius: 'var(--rounded-lg)' }}>
-              <p style={{ font: 'var(--font-label)', color: 'var(--primary)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 4 }}>{t('store.hero.tag')}</p>
-              <h2 style={{ font: 'var(--font-display)', color: 'var(--on-surface)', marginBottom: 16 }}>WINTER DROP</h2>
+              <p style={{ font: 'var(--font-label)', color: 'var(--primary)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 4 }}>{collection.subtitle || t('store.hero.tag')}</p>
+              <h2 style={{ font: 'var(--font-display)', color: 'var(--on-surface)', marginBottom: 16 }}>{collection.title}</h2>
               <button onClick={scrollToProducts}
                 style={{ width: '100%', background: 'var(--primary)', color: 'var(--on-primary)', padding: '12px 0', borderRadius: 'var(--radius-full)', font: 'var(--font-label)', letterSpacing: '0.1em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}>
                 {t('store.hero.button')}
