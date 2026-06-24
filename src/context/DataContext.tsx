@@ -64,7 +64,6 @@ function saveData(data: StoredData) {
 }
 
 function getNextCategoryId(): string {
-  const cats = loadData() ? defaultCategories : [];
   return 'c' + (Date.now());
 }
 

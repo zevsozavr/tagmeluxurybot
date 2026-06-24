@@ -50,7 +50,7 @@ export function ProductDetail() {
 
   const handleNegotiate = () => {
     if (!offerPrice || !product) return;
-    const msg = `Здравствуйте, хочу предложить ${Number(offerPrice).toLocaleString()}₴ за товар "${product.name}" (${product.selectedSize || size}, ${color}).`;
+    const msg = `Здравствуйте, хочу предложить ${Number(offerPrice).toLocaleString()}₴ за товар "${product.name}" (${size}, ${color}).`;
     window.open(`https://t.me/certifiedclobot?text=${encodeURIComponent(msg)}`, '_blank');
     setShowNegotiate(false);
     setOfferPrice('');
