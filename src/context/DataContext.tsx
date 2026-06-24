@@ -46,6 +46,7 @@ const defaultProducts: Product[] = [
 ];
 
 const defaultCollection: Collection = {
+  enabled: true,
   image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80',
   title: 'WINTER DROP',
   subtitle: 'Нова колекція',

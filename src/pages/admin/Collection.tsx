@@ -13,6 +13,7 @@ export function AdminCollection() {
   const { isAdmin } = useAuth();
   const { t } = useLang();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [enabled, setEnabled] = useState(collection.enabled);
   const [title, setTitle] = useState(collection.title);
   const [subtitle, setSubtitle] = useState(collection.subtitle);
   const [tag, setTag] = useState(collection.tag);
@@ -34,7 +35,7 @@ export function AdminCollection() {
   };
 
   const handleSave = () => {
-    setCollection({ title, subtitle, tag, image: imageDataUrl || image });
+    setCollection({ enabled, title, subtitle, tag, image: imageDataUrl || image });
     navigate('/admin');
   };
 
@@ -45,6 +46,15 @@ export function AdminCollection() {
         <Glass card glow style={{ borderRadius: 'var(--rounded-lg)', padding: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
           <h3 style={{ font: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 4 }}>{t('admin.collection')}</h3>
 
+          <div onClick={() => setEnabled(!enabled)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', cursor: 'pointer' }}>
+            <span style={{ font: 'var(--font-body)', color: 'var(--on-surface)' }}>{t('admin.collection.show')}</span>
+            <div style={{ width: 44, height: 24, borderRadius: 12, background: enabled ? 'var(--primary)' : 'rgba(255,255,255,0.15)', position: 'relative', transition: 'background 0.2s' }}>
+              <div style={{ width: 20, height: 20, borderRadius: '50%', background: '#fff', position: 'absolute', top: 2, left: enabled ? 22 : 2, transition: 'left 0.2s' }} />
+            </div>
+          </div>
+
+          {enabled && (
+          <>
           <input placeholder={t('admin.collection.title')} value={title} onChange={(e) => setTitle(e.target.value)}
             style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
           <input placeholder={t('admin.collection.subtitle')} value={subtitle} onChange={(e) => setSubtitle(e.target.value)}
@@ -66,6 +76,7 @@ export function AdminCollection() {
             )}
           </div>
 
+          </>)}
           <Button fullWidth glow variant="primary" onClick={handleSave}>{t('admin.collection.save')}</Button>
         </Glass>
       </main>

@@ -33,6 +33,8 @@ export function Storefront() {
 
       <main style={{ flex: 1, overflow: 'auto', position: 'relative', zIndex: 10, paddingTop: 16, paddingBottom: 96 }}>
         <div style={{ padding: '0 var(--pad)' }}>
+          {collection.enabled && (
+          <>
           <div style={{ font: 'var(--font-label)', color: 'var(--primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>{collection.tag || t('store.tag')}</div>
 
           {/* Hero */}
@@ -52,6 +54,7 @@ export function Storefront() {
               </button>
             </Glass>
           </section>
+          </>)}
 
           {/* Categories */}
           <section style={{ marginTop: 28 }}>

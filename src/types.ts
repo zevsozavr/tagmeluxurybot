@@ -33,6 +33,7 @@ export interface Category {
 }
 
 export interface Collection {
+  enabled: boolean;
   image: string;
   title: string;
   subtitle: string;
