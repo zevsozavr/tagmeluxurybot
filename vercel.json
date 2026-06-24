@@ -1,0 +1,13 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "env": {
+    "BOT_TOKEN": "8849846358:AAH1QyRQpjS2DEh868mlrbzRrbK-QgkwYtc",
+    "NOTIFY_CHAT_ID": "8849846358"
+  }
+}
