@@ -34,30 +34,30 @@ export function Checkout() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
-      <Header showBack title="Checkout" />
+      <Header showBack title="Оформлення" />
       <main style={{ flex: 1, overflow: 'auto', position: 'relative', zIndex: 10, padding: '24px var(--pad)', paddingBottom: 32 }}>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div>
-            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Full Name</label>
-            <input required value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name"
+            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Ім'я</label>
+            <input required value={name} onChange={(e) => setName(e.target.value)} placeholder="Ваше ім'я"
               style={{ width: '100%', padding: '14px 16px', borderRadius: 'var(--rounded-lg)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', font: 'var(--font-body)', color: 'var(--on-surface)', backdropFilter: 'blur(8px)' }} />
           </div>
           <div>
-            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Phone</label>
-            <input required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+1 (555) 000-0000"
+            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Телефон</label>
+            <input required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+38 (0XX) XXX-XX-XX"
               style={{ width: '100%', padding: '14px 16px', borderRadius: 'var(--rounded-lg)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', font: 'var(--font-body)', color: 'var(--on-surface)', backdropFilter: 'blur(8px)' }} />
           </div>
           <div>
-            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Shipping Address</label>
-            <input required value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Street, City, ZIP"
+            <label style={{ font: 'var(--font-label)', display: 'block', marginBottom: 6, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Адреса</label>
+            <input required value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Місто, вулиця, дім"
               style={{ width: '100%', padding: '14px 16px', borderRadius: 'var(--rounded-lg)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', font: 'var(--font-body)', color: 'var(--on-surface)', backdropFilter: 'blur(8px)' }} />
           </div>
           <Glass card style={{ padding: 16, borderRadius: 'var(--rounded-lg)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ font: 'var(--font-body)' }}>Items ({totalItems})</span><span style={{ font: 'var(--font-body)' }}>${totalPrice.toLocaleString()}</span></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ font: 'var(--font-body)' }}>Shipping</span><span style={{ color: 'var(--primary)', font: 'var(--font-body)' }}>Free</span></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--glass-border)', paddingTop: 8 }}><span style={{ font: 'var(--font-headline)' }}>Total</span><span style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>${totalPrice.toLocaleString()}</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ font: 'var(--font-body)' }}>Товари ({totalItems})</span><span style={{ font: 'var(--font-body)' }}>{totalPrice.toLocaleString()}₴</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ font: 'var(--font-body)' }}>Доставка</span><span style={{ color: 'var(--primary)', font: 'var(--font-body)' }}>Безкоштовно</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--glass-border)', paddingTop: 8 }}><span style={{ font: 'var(--font-headline)' }}>Всього</span><span style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>{totalPrice.toLocaleString()}₴</span></div>
           </Glass>
-          <Button fullWidth glow type="submit">Place Order</Button>
+          <Button fullWidth glow type="submit">Замовити</Button>
         </form>
       </main>
     </div>

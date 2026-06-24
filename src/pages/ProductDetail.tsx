@@ -27,8 +27,8 @@ export function ProductDetail() {
   if (!product) {
     return (
       <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}>
-        <p style={{ marginBottom: 16 }}>Product not found</p>
-        <Button variant="glass" onClick={() => navigate('/')}>Back to Shop</Button>
+        <p style={{ marginBottom: 16 }}>Товар не знайдено</p>
+        <Button variant="glass" onClick={() => navigate('/')}>Назад</Button>
       </div>
     );
   }
@@ -43,10 +43,9 @@ export function ProductDetail() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
-      <Header showBack title="ELITE" />
+      <Header showBack title="" />
 
       <main style={{ flex: 1, overflow: 'auto', position: 'relative', zIndex: 10, paddingBottom: 32 }}>
-        {/* Product image with radial glow */}
         <section style={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',
           paddingTop: 24, paddingBottom: 24,
@@ -66,7 +65,6 @@ export function ProductDetail() {
           </div>
         </section>
 
-        {/* Details card */}
         <section style={{ padding: '0 var(--pad)', marginTop: -32 }}>
           <Glass card style={{ borderRadius: 32, padding: 32, display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -75,19 +73,18 @@ export function ProductDetail() {
                 <h2 style={{ font: 'var(--font-display)', color: 'var(--on-surface)', marginTop: 4, fontSize: 28 }}>{product.name}</h2>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <p style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>${product.price.toLocaleString()}</p>
+                <p style={{ font: 'var(--font-headline)', color: 'var(--primary)' }}>{product.price.toLocaleString()}₴</p>
                 {product.originalPrice && (
-                  <p style={{ textDecoration: 'line-through', color: 'var(--on-surface-variant)', font: 'var(--font-body-sm)' }}>${product.originalPrice.toLocaleString()}</p>
+                  <p style={{ textDecoration: 'line-through', color: 'var(--on-surface-variant)', font: 'var(--font-body-sm)' }}>{product.originalPrice.toLocaleString()}₴</p>
                 )}
               </div>
             </div>
 
             <p style={{ font: 'var(--font-body)', color: 'var(--on-surface-variant)', lineHeight: 1.7 }}>{product.description}</p>
 
-            {/* Colors */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <span style={{ font: 'var(--font-label)', color: 'var(--on-surface)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                Color — {color}
+                Колір — {color}
               </span>
               <div style={{ display: 'flex', gap: 12 }}>
                 {product.colors.map((c) => (
@@ -102,10 +99,9 @@ export function ProductDetail() {
               </div>
             </div>
 
-            {/* Sizes */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <span style={{ font: 'var(--font-label)', color: 'var(--on-surface)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                Size — {size}
+                Розмір — {size}
               </span>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 {product.sizes.map((s) => (
@@ -125,10 +121,9 @@ export function ProductDetail() {
               </div>
             </div>
 
-            {/* CTAs */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 8 }}>
               <Button fullWidth glow variant="primary" onClick={handleAdd}>
-                {added ? '✓ Added to Bag' : `Add to Bag — $${product.price.toLocaleString()}`}
+                {added ? '✓ В кошику' : `В кошик — ${product.price.toLocaleString()}₴`}
               </Button>
             </div>
           </Glass>

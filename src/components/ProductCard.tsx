@@ -26,8 +26,8 @@ export function ProductCard({ product, onClick }: Props) {
           <div>
             <p style={{ font: 'var(--font-headline-sm)', fontSize: 14, color: 'var(--on-surface)' }}>{product.name}</p>
             <p style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)' }}>
-              ${product.price.toLocaleString()}
-              {product.originalPrice && <span style={{ textDecoration: 'line-through', marginLeft: 8, opacity: 0.6 }}>${product.originalPrice.toLocaleString()}</span>}
+              {product.price.toLocaleString()}₴
+              {product.originalPrice && <span style={{ textDecoration: 'line-through', marginLeft: 8, opacity: 0.6 }}>{product.originalPrice.toLocaleString()}₴</span>}
             </p>
           </div>
           <button style={{

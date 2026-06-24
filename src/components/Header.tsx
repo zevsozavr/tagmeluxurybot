@@ -27,7 +27,7 @@ export function Header({ title, showBack, right, onBack }: Props) {
       {title ? (
         <h1 style={{ font: 'var(--font-headline)', color: 'var(--primary)', letterSpacing: 'var(--ls-headline)' }}>{title}</h1>
       ) : (
-        <span style={{ font: 'var(--font-display)', color: 'var(--primary)', letterSpacing: 'var(--ls-display)', fontSize: 22 }}>ELITE</span>
+        <span style={{ font: 'var(--font-display)', color: 'var(--primary)', letterSpacing: 'var(--ls-display)', fontSize: 22 }}>CERTIFIED CLO</span>
       )}
       <div style={{ width: 40, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         {right}
