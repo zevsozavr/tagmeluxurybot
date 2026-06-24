@@ -106,6 +106,13 @@ const translations = {
     'admin.collection.subtitle': 'Підзаголовок',
     'admin.collection.tag': 'Тег',
     'admin.collection.save': 'Зберегти',
+    'admin.product.sizes': 'Розміри (через кому, напр. S, M, L, XL)',
+    'admin.product.colors': 'Кольори (назва:код:фото, через кому, напр. Black:#000:)',
+    'admin.product.save': 'Зберегти товар',
+    'product.condition.new': 'Новий',
+    'product.condition.like_new': 'Як новий',
+    'product.condition.good': 'Хороший',
+    'product.condition.fair': 'Задовільний',
   },
   RU: {
     'checkout.name': 'Имя',
@@ -212,6 +219,13 @@ const translations = {
     'admin.collection.subtitle': 'Подзаголовок',
     'admin.collection.tag': 'Тег',
     'admin.collection.save': 'Сохранить',
+    'admin.product.sizes': 'Размеры (через запятую, напр. S, M, L, XL)',
+    'admin.product.colors': 'Цвета (название:код:фото, через запятую, напр. Black:#000:)',
+    'admin.product.save': 'Сохранить товар',
+    'product.condition.new': 'Новый',
+    'product.condition.like_new': 'Как новый',
+    'product.condition.good': 'Хорошее',
+    'product.condition.fair': 'Удовлетворительное',
   },
 };
 

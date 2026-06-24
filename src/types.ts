@@ -6,8 +6,9 @@ export interface Product {
   originalPrice?: number;
   image: string;
   description: string;
+  condition: string;
   sizes: string[];
-  colors: { name: string; hex: string }[];
+  colors: { name: string; hex: string; image?: string }[];
 }
 
 export interface CartItem extends Product {

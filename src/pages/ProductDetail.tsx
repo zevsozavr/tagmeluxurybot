@@ -17,6 +17,8 @@ export function ProductDetail() {
 
   const [size, setSize] = useState(product?.sizes[0] || '');
   const [color, setColor] = useState(product?.colors[0]?.name || '');
+  const currentColorObj = product?.colors.find((c) => c.name === color);
+  const displayImage = currentColorObj?.image || product?.image || '';
   const [added, setAdded] = useState(false);
   const [scrolled, setScrolled] = useState(0);
   const [showNegotiate, setShowNegotiate] = useState(false);
@@ -92,7 +94,7 @@ export function ProductDetail() {
               position: 'absolute', inset: 0, background: 'rgba(197,234,255,0.1)',
               borderRadius: '50%', filter: 'blur(60px)', transform: 'scale(0.75)', opacity: 0.5,
             }} />
-            <img src={product.image} alt={product.name}
+            <img src={displayImage} alt={product.name}
               style={{
                 position: 'relative', zIndex: 10, width: '100%', height: '100%', objectFit: 'contain',
                 transform: `translateY(${scrolled * 0.15}px) scale(${1 + scrolled * 0.0002})`,
@@ -106,6 +108,7 @@ export function ProductDetail() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
                 <span style={{ font: 'var(--font-label)', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>{t('categories.' + product.category)}</span>
+                <span style={{ font: 'var(--font-label)', fontSize: 11, color: 'var(--on-surface-variant)', marginLeft: 8, padding: '2px 8px', borderRadius: 'var(--radius-full)', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>{t('product.condition.' + product.condition.toLowerCase().replace(/\s+/g, '_'))}</span>
                 <h2 style={{ font: 'var(--font-display)', color: 'var(--on-surface)', marginTop: 4, fontSize: 28 }}>{product.name}</h2>
               </div>
               <div style={{ textAlign: 'right' }}>

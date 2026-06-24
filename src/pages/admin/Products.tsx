@@ -10,11 +10,12 @@ import { useLang } from '../../context/LangContext';
 
 export function AdminProducts() {
   const navigate = useNavigate();
-  const { products, categories, addProduct, deleteProduct } = useData();
+  const { products, categories, addProduct, updateProduct, deleteProduct } = useData();
   const { isAdmin } = useAuth();
   const { t } = useLang();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [newCategory, setNewCategory] = useState('');
@@ -22,6 +23,9 @@ export function AdminProducts() {
   const [imageDataUrl, setImageDataUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [description, setDescription] = useState('');
+  const [condition, setCondition] = useState('New');
+  const [sizesInput, setSizesInput] = useState('S, M, L');
+  const [colorsInput, setColorsInput] = useState('Default:#000000');
 
   if (!isAdmin) return <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}><p>{t('admin.access.denied')}</p></div>;
 
@@ -33,20 +37,48 @@ export function AdminProducts() {
     reader.readAsDataURL(file);
   };
 
+  const resetForm = () => {
+    setName(''); setCategory(''); setNewCategory(''); setPrice('');
+    setImageDataUrl(''); setImageUrl(''); setDescription(''); setCondition('New');
+    setSizesInput('S, M, L'); setColorsInput('Default:#000000');
+    setEditingId(null); setShowForm(false);
+  };
+
+  const openEdit = (p: typeof products[0]) => {
+    setEditingId(p.id);
+    setName(p.name); setCategory(p.category); setPrice(String(p.price));
+    setImageUrl(p.image); setImageDataUrl(''); setDescription(p.description);
+    setCondition(p.condition);
+    setSizesInput(p.sizes.join(', '));
+    setColorsInput(p.colors.map((c) => `${c.name}:${c.hex}${c.image ? ':' + c.image : ''}`).join(', '));
+    setShowForm(true);
+  };
+
+  const parseColors = (input: string) => {
+    return input.split(',').map((c) => {
+      const parts = c.trim().split(':');
+      return { name: parts[0]?.trim() || 'Default', hex: parts[1]?.trim() || '#000000', image: parts[2]?.trim() || undefined };
+    });
+  };
+
   const handleAdd = () => {
     if (!name || !price) return;
     const cat = category || newCategory || 'General';
-    addProduct({
-      id: Date.now().toString(),
+    const parsedSizes = sizesInput.split(',').map((s) => s.trim()).filter(Boolean);
+    const parsedColors = parseColors(colorsInput);
+    const productData = {
       name, category: cat, price: Number(price),
       image: imageDataUrl || imageUrl || 'https://images.unsplash.com/photo-1434389677669-e08b4cda3a11?w=400&q=80',
-      description: description || '',
-      sizes: ['S', 'M', 'L'],
-      colors: [{ name: 'Default', hex: '#000000' }],
-    });
-    setName(''); setCategory(''); setNewCategory(''); setPrice('');
-    setImageDataUrl(''); setImageUrl(''); setDescription('');
-    setShowForm(false);
+      description: description || '', condition,
+      sizes: parsedSizes.length > 0 ? parsedSizes : ['One Size'],
+      colors: parsedColors,
+    };
+    if (editingId) {
+      updateProduct(editingId, productData);
+    } else {
+      addProduct({ id: Date.now().toString(), ...productData });
+    }
+    resetForm();
   };
 
   return (
@@ -55,7 +87,7 @@ export function AdminProducts() {
       <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--pad)', position: 'relative', zIndex: 10, paddingBottom: 96 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
           <span style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)' }}>{products.length} {t('products.count')}</span>
-          <Button variant="glass" onClick={() => setShowForm(!showForm)} style={{ padding: '8px 16px' }}>
+          <Button variant="glass" onClick={() => { resetForm(); setShowForm(!showForm); }} style={{ padding: '8px 16px' }}>
             <Icon name="add" style={{ fontSize: 16 }} /> {t('admin.add.product')}
           </Button>
         </div>
@@ -98,23 +130,44 @@ export function AdminProducts() {
               )}
             </div>
 
+            <select value={condition} onChange={(e) => setCondition(e.target.value)}
+              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }}>
+              <option value="New">{t('product.condition.new')}</option>
+              <option value="Like New">{t('product.condition.like_new')}</option>
+              <option value="Good">{t('product.condition.good')}</option>
+              <option value="Fair">{t('product.condition.fair')}</option>
+            </select>
+
+            <input placeholder={t('admin.product.sizes')} value={sizesInput} onChange={(e) => setSizesInput(e.target.value)}
+              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
+
+            <input placeholder={t('admin.product.colors')} value={colorsInput} onChange={(e) => setColorsInput(e.target.value)}
+              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
+
             <textarea placeholder={t('admin.product.description')} value={description} onChange={(e) => setDescription(e.target.value)} rows={3}
               style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)', resize: 'vertical' }} />
-            <Button fullWidth glow variant="primary" onClick={handleAdd}>{t('admin.product.add')}</Button>
+            <Button fullWidth glow variant="primary" onClick={handleAdd}>
+              {editingId ? t('admin.product.save') : t('admin.product.add')}
+            </Button>
           </Glass>
         )}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {products.map((p) => (
-            <Glass key={p.id} style={{ borderRadius: 'var(--rounded-lg)', padding: 16, display: 'flex', gap: 12, alignItems: 'center' }}>
+            <Glass key={p.id} style={{ borderRadius: 'var(--rounded-lg)', padding: 16, display: 'flex', gap: 12, alignItems: 'center', cursor: 'pointer' }}
+              onClick={() => openEdit(p)}>
               <div style={{ width: 56, height: 72, borderRadius: 'var(--rounded-md)', overflow: 'hidden', flexShrink: 0, background: 'var(--surface-low)' }}>
                 <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div style={{ flex: 1 }}>
                 <p style={{ font: 'var(--font-body)', fontWeight: 600 }}>{p.name}</p>
-                <p style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)' }}>{t('categories.' + p.category)} — {p.price.toLocaleString()}₴</p>
+                <p style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)', fontSize: 12 }}>
+                  {t('categories.' + p.category)} — {p.price.toLocaleString()}₴
+                  <span style={{ marginLeft: 8, padding: '1px 6px', borderRadius: 'var(--radius-full)', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>{t('product.condition.' + p.condition.toLowerCase().replace(/\s+/g, '_'))}</span>
+                </p>
+                {p.description && <p style={{ font: 'var(--font-body)', fontSize: 12, color: 'var(--on-surface-variant)', marginTop: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 200 }}>{p.description}</p>}
               </div>
-              <button onClick={() => deleteProduct(p.id)} style={{ color: 'var(--error)', cursor: 'pointer', padding: 4 }}>
+              <button onClick={(e) => { e.stopPropagation(); deleteProduct(p.id); }} style={{ color: 'var(--error)', cursor: 'pointer', padding: 4 }}>
                 <Icon name="delete" />
               </button>
             </Glass>
