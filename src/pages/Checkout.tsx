@@ -30,12 +30,8 @@ export function Checkout() {
       phone,
       address,
       items: items.map((i) => ({
-        id: i.id,
-        name: i.name,
-        size: i.selectedSize,
-        color: i.selectedColor,
-        quantity: i.quantity,
-        price: i.price,
+        id: i.id, name: i.name, size: i.selectedSize,
+        color: i.selectedColor, quantity: i.quantity, price: i.price,
       })),
       total: totalPrice,
     };
@@ -56,13 +52,13 @@ export function Checkout() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-background)' }}>
       <Header showBack title="Checkout" />
 
-      <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--container-margin)' }}>
+      <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--container-padding)' }}>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div>
-            <label style={{ font: 'var(--typography-label-sm)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <label style={{ font: 'var(--typography-label-caps)', display: 'block', marginBottom: '6px', color: 'var(--color-on-surface-variant)' }}>
               Full Name
             </label>
             <input
@@ -72,16 +68,17 @@ export function Checkout() {
               placeholder="Enter your name"
               style={{
                 width: '100%',
-                padding: '12px 16px',
-                borderRadius: 'var(--rounded)',
+                padding: '14px 16px',
+                borderRadius: 'var(--rounded-md)',
                 border: '1px solid var(--color-outline-variant)',
                 background: 'var(--color-surface-container-low)',
-                font: 'var(--typography-body-md)',
+                font: 'var(--typography-body-lg)',
+                color: 'var(--color-on-surface)',
               }}
             />
           </div>
           <div>
-            <label style={{ font: 'var(--typography-label-sm)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <label style={{ font: 'var(--typography-label-caps)', display: 'block', marginBottom: '6px', color: 'var(--color-on-surface-variant)' }}>
               Phone
             </label>
             <input
@@ -91,16 +88,17 @@ export function Checkout() {
               placeholder="+1 (555) 000-0000"
               style={{
                 width: '100%',
-                padding: '12px 16px',
-                borderRadius: 'var(--rounded)',
+                padding: '14px 16px',
+                borderRadius: 'var(--rounded-md)',
                 border: '1px solid var(--color-outline-variant)',
                 background: 'var(--color-surface-container-low)',
-                font: 'var(--typography-body-md)',
+                font: 'var(--typography-body-lg)',
+                color: 'var(--color-on-surface)',
               }}
             />
           </div>
           <div>
-            <label style={{ font: 'var(--typography-label-sm)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <label style={{ font: 'var(--typography-label-caps)', display: 'block', marginBottom: '6px', color: 'var(--color-on-surface-variant)' }}>
               Shipping Address
             </label>
             <input
@@ -110,11 +108,12 @@ export function Checkout() {
               placeholder="Street, City, ZIP"
               style={{
                 width: '100%',
-                padding: '12px 16px',
-                borderRadius: 'var(--rounded)',
+                padding: '14px 16px',
+                borderRadius: 'var(--rounded-md)',
                 border: '1px solid var(--color-outline-variant)',
                 background: 'var(--color-surface-container-low)',
-                font: 'var(--typography-body-md)',
+                font: 'var(--typography-body-lg)',
+                color: 'var(--color-on-surface)',
               }}
             />
           </div>
@@ -122,25 +121,27 @@ export function Checkout() {
           <div
             style={{
               padding: '16px',
-              borderRadius: 'var(--rounded)',
-              background: 'var(--color-surface-container-low)',
+              borderRadius: 'var(--rounded-lg)',
+              background: 'var(--glass-bg)',
+              border: '1px solid var(--color-outline-variant)',
+              backdropFilter: 'blur(12px)',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <span style={{ font: 'var(--typography-body-md)' }}>Items ({totalItems})</span>
-              <span style={{ font: 'var(--typography-body-md)' }}>${totalPrice}</span>
+              <span style={{ font: 'var(--typography-body-lg)' }}>Items ({totalItems})</span>
+              <span style={{ font: 'var(--typography-body-lg)' }}>${totalPrice}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <span style={{ font: 'var(--typography-body-md)' }}>Shipping</span>
-              <span style={{ font: 'var(--typography-body-md)' }}>Free</span>
+              <span style={{ font: 'var(--typography-body-lg)' }}>Shipping</span>
+              <span style={{ color: 'var(--color-primary)', font: 'var(--typography-body-lg)' }}>Free</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid var(--color-outline-variant)' }}>
-              <span style={{ font: 'var(--typography-body-lg)', fontWeight: 600 }}>Total</span>
-              <span style={{ font: 'var(--typography-body-lg)', fontWeight: 600 }}>${totalPrice}</span>
+              <span style={{ font: 'var(--typography-headline-sm)' }}>Total</span>
+              <span style={{ font: 'var(--typography-headline-sm)', color: 'var(--color-primary)' }}>${totalPrice}</span>
             </div>
           </div>
 
-          <Button fullWidth type="submit">Place Order</Button>
+          <Button fullWidth glow type="submit">Place Order</Button>
         </form>
       </main>
     </div>

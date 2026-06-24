@@ -12,28 +12,30 @@ export function OrderConfirmed() {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
-        padding: '40px var(--container-margin)',
+        padding: '40px var(--container-padding)',
         textAlign: 'center',
+        background: 'var(--color-background)',
       }}
     >
       <div
         style={{
-          width: '64px',
-          height: '64px',
+          width: '72px',
+          height: '72px',
           borderRadius: '50%',
-          background: 'var(--color-primary-container)',
+          background: 'var(--gradient-primary)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: '24px',
+          boxShadow: '0 0 30px rgba(82,141,255,0.3)',
         }}
       >
-        <span style={{ fontSize: '28px', color: 'var(--color-on-primary-container)' }}>✓</span>
+        <span style={{ fontSize: '32px', color: '#fff' }}>✓</span>
       </div>
-      <h1 style={{ font: 'var(--typography-headline-lg-mobile)', marginBottom: '8px' }}>
+      <h1 style={{ font: 'var(--typography-headline-md)', marginBottom: '8px', color: 'var(--color-on-surface)' }}>
         Order Confirmed
       </h1>
-      <p style={{ font: 'var(--typography-body-md)', color: 'var(--color-on-surface-variant)', marginBottom: '32px', maxWidth: '280px' }}>
+      <p style={{ font: 'var(--typography-body-lg)', color: 'var(--color-on-surface-variant)', marginBottom: '32px', maxWidth: '280px' }}>
         Thank you for your purchase. You will receive a confirmation shortly.
       </p>
       <Button onClick={() => navigate('/')}>Continue Shopping</Button>

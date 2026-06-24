@@ -31,7 +31,7 @@ export function ProductDetail() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-background)' }}>
       <Header showBack title={product.category} />
 
       <main style={{ flex: 1, overflow: 'auto' }}>
@@ -39,35 +39,36 @@ export function ProductDetail() {
           style={{
             aspectRatio: '3 / 4',
             background: 'var(--color-surface-container-low)',
-            margin: '0 var(--container-margin)',
+            margin: '0 var(--container-padding)',
             marginTop: '16px',
-            borderRadius: 'var(--rounded)',
+            borderRadius: 'var(--rounded-xl)',
             overflow: 'hidden',
+            border: '1px solid var(--color-outline-variant)',
           }}
         >
           <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 
-        <div style={{ padding: '20px var(--container-margin)' }}>
-          <span style={{ font: 'var(--typography-label-sm)', color: 'var(--color-on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <div style={{ padding: '20px var(--container-padding)' }}>
+          <span style={{ font: 'var(--typography-label-caps)', color: 'var(--color-primary)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
             {product.category}
           </span>
-          <h1 style={{ font: 'var(--typography-headline-md)', marginTop: '4px' }}>{product.name}</h1>
+          <h1 style={{ font: 'var(--typography-headline-md)', marginTop: '4px', color: 'var(--color-on-surface)' }}>{product.name}</h1>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '8px' }}>
-            <span style={{ font: 'var(--typography-body-lg)', fontWeight: 600 }}>${product.price}</span>
+            <span style={{ font: 'var(--typography-stat-value)', color: 'var(--color-primary)' }}>${product.price}</span>
             {product.originalPrice && (
-              <span style={{ textDecoration: 'line-through', color: 'var(--color-on-surface-variant)', font: 'var(--typography-body-md)' }}>
+              <span style={{ textDecoration: 'line-through', color: 'var(--color-on-surface-variant)', font: 'var(--typography-body-lg)' }}>
                 ${product.originalPrice}
               </span>
             )}
           </div>
 
-          <p style={{ font: 'var(--typography-body-md)', color: 'var(--color-on-surface-variant)', marginTop: '16px', lineHeight: 1.6 }}>
+          <p style={{ font: 'var(--typography-body-lg)', color: 'var(--color-on-surface-variant)', marginTop: '16px', lineHeight: 1.6 }}>
             {product.description}
           </p>
 
           <div style={{ marginTop: '24px' }}>
-            <span style={{ font: 'var(--typography-label-sm)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <span style={{ font: 'var(--typography-label-caps)', color: 'var(--color-on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               Color — {selectedColor}
             </span>
             <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
@@ -82,6 +83,7 @@ export function ProductDetail() {
                     background: c.hex,
                     border: selectedColor === c.name ? '2px solid var(--color-primary)' : '2px solid var(--color-outline-variant)',
                     cursor: 'pointer',
+                    ...(selectedColor === c.name ? { boxShadow: '0 0 12px rgba(82,141,255,0.4)' } : {}),
                   }}
                 />
               ))}
@@ -89,7 +91,7 @@ export function ProductDetail() {
           </div>
 
           <div style={{ marginTop: '20px' }}>
-            <span style={{ font: 'var(--typography-label-sm)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <span style={{ font: 'var(--typography-label-caps)', color: 'var(--color-on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               Size — {selectedSize}
             </span>
             <div style={{ display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
@@ -98,13 +100,14 @@ export function ProductDetail() {
                   key={s}
                   onClick={() => setSelectedSize(s)}
                   style={{
-                    padding: '8px 16px',
-                    borderRadius: 'var(--rounded)',
-                    font: 'var(--typography-label-sm)',
-                    background: selectedSize === s ? 'var(--color-on-surface)' : 'transparent',
+                    padding: '10px 20px',
+                    borderRadius: 'var(--rounded-md)',
+                    font: 'var(--typography-label-caps)',
+                    background: selectedSize === s ? 'var(--gradient-primary)' : 'var(--glass-bg)',
                     color: selectedSize === s ? '#fff' : 'var(--color-on-surface)',
-                    border: '1px solid var(--color-outline)',
+                    border: selectedSize === s ? 'none' : '1px solid var(--color-outline-variant)',
                     cursor: 'pointer',
+                    backdropFilter: selectedSize !== s ? 'blur(12px)' : 'none',
                   }}
                 >
                   {s}
@@ -117,13 +120,14 @@ export function ProductDetail() {
 
       <div
         style={{
-          padding: '12px var(--container-margin)',
+          padding: '12px var(--container-padding)',
           borderTop: '1px solid var(--color-outline-variant)',
-          background: 'var(--color-surface)',
+          background: 'var(--glass-bg)',
+          backdropFilter: 'blur(16px)',
         }}
       >
-        <Button fullWidth onClick={handleAdd} style={added ? { background: 'var(--color-inverse-primary)', color: 'var(--color-primary)' } : {}}>
-          {added ? '✓ Added to Bag' : 'Add to Bag'}
+        <Button fullWidth glow onClick={handleAdd}>
+          {added ? '✓ Added to Bag' : 'Add to Bag — $' + product.price}
         </Button>
       </div>
     </div>

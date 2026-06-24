@@ -12,18 +12,21 @@ const rows = [
 
 export function Settings() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-background)' }}>
       <Header title="Profile" />
 
-      <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--container-margin)' }}>
+      <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--container-padding)' }}>
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '16px',
-            paddingBottom: '24px',
-            borderBottom: '1px solid var(--color-outline-variant)',
-            marginBottom: '16px',
+            padding: '16px',
+            borderRadius: 'var(--rounded-lg)',
+            background: 'var(--glass-bg)',
+            border: '1px solid var(--color-outline-variant)',
+            backdropFilter: 'blur(12px)',
+            marginBottom: '20px',
           }}
         >
           <div
@@ -31,19 +34,20 @@ export function Settings() {
               width: '56px',
               height: '56px',
               borderRadius: '50%',
-              background: 'var(--color-surface-container-high)',
+              background: 'var(--gradient-primary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: '22px',
-              fontWeight: 600,
+              fontWeight: 700,
+              color: '#fff',
             }}
           >
             CC
           </div>
           <div>
-            <h2 style={{ font: 'var(--typography-headline-md)', fontSize: '18px' }}>Certified Clo</h2>
-            <span style={{ font: 'var(--typography-label-sm)', color: 'var(--color-on-surface-variant)' }}>
+            <h2 style={{ font: 'var(--typography-headline-sm)', fontSize: '18px', color: 'var(--color-on-surface)' }}>Certified Clo</h2>
+            <span style={{ font: 'var(--typography-label-caps)', color: 'var(--color-on-surface-variant)' }}>
               Member since 2026
             </span>
           </div>
@@ -57,16 +61,18 @@ export function Settings() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                padding: '14px 0',
-                borderBottom: '1px solid var(--color-outline-variant)',
+                padding: '16px',
+                borderRadius: 'var(--rounded-md)',
                 width: '100%',
                 textAlign: 'left',
                 cursor: 'pointer',
+                color: 'var(--color-on-surface)',
+                transition: 'background 0.2s',
               }}
             >
               <span style={{ fontSize: '18px', width: '24px', textAlign: 'center' }}>{r.icon}</span>
-              <span style={{ font: 'var(--typography-body-md)', flex: 1 }}>{r.label}</span>
-              <span style={{ color: 'var(--color-on-surface-variant)', fontSize: '14px' }}>›</span>
+              <span style={{ font: 'var(--typography-body-lg)', flex: 1 }}>{r.label}</span>
+              <span style={{ color: 'var(--color-on-surface-variant)', fontSize: '16px' }}>→</span>
             </button>
           ))}
         </div>

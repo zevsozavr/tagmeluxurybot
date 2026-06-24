@@ -13,10 +13,10 @@ export function CategoryCard({ category, onClick }: Props) {
         position: 'relative',
         width: '140px',
         height: '180px',
-        borderRadius: 'var(--rounded)',
+        borderRadius: 'var(--rounded-lg)',
         overflow: 'hidden',
         flexShrink: 0,
-        border: 'none',
+        border: '1px solid var(--color-outline-variant)',
         cursor: 'pointer',
         padding: 0,
       }}
@@ -31,7 +31,7 @@ export function CategoryCard({ category, onClick }: Props) {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)',
+          background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%)',
         }}
       />
       <span
@@ -39,8 +39,8 @@ export function CategoryCard({ category, onClick }: Props) {
           position: 'absolute',
           bottom: '12px',
           left: '12px',
-          font: 'var(--typography-headline-md)',
-          fontSize: '18px',
+          font: 'var(--typography-headline-sm)',
+          fontSize: '16px',
           color: '#fff',
           textAlign: 'left',
         }}

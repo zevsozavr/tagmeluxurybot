@@ -11,10 +11,11 @@ html, body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--color-background);
 }
 
 body {
-  font: var(--typography-body-md);
+  font: var(--typography-body-lg);
   color: var(--color-on-surface);
   background: var(--color-background);
 }
