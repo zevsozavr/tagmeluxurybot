@@ -50,14 +50,15 @@ export function AdminProducts() {
     setImageUrl(p.image); setImageDataUrl(''); setDescription(p.description);
     setCondition(p.condition);
     setSizesInput(p.sizes.join(', '));
-    setColorsInput(p.colors.map((c) => `${c.name}:${c.hex}${c.image ? ':' + c.image : ''}`).join(', '));
+    setColorsInput(p.colors.map((c) => `${c.name}:${c.hex}${c.image ? ':' + encodeURIComponent(c.image) : ''}`).join(', '));
     setShowForm(true);
   };
 
   const parseColors = (input: string) => {
     return input.split(',').map((c) => {
       const parts = c.trim().split(':');
-      return { name: parts[0]?.trim() || 'Default', hex: parts[1]?.trim() || '#000000', image: parts[2]?.trim() || undefined };
+      const image = parts[2] ? decodeURIComponent(parts.slice(2).join(':')) : undefined;
+      return { name: parts[0]?.trim() || 'Default', hex: parts[1]?.trim() || '#000000', image: image?.trim() || undefined };
     });
   };
 

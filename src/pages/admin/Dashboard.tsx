@@ -23,7 +23,6 @@ export function AdminDashboard() {
   const cards = [
     { label: t('admin.products'), value: products.length, icon: 'inventory_2', path: '/admin/products', color: 'var(--primary)' },
     { label: t('admin.offers'), value: offers.filter((o) => o.active).length, icon: 'local_offer', path: '/admin/offers', color: 'var(--tertiary-dim)' },
-    { label: t('admin.photos.title'), value: products.length, icon: 'photo_library', path: '/admin/photos', color: 'var(--primary)' },
     { label: t('admin.collection'), value: '', icon: 'auto_awesome', path: '/admin/collection', color: 'var(--primary)' },
   ];
 

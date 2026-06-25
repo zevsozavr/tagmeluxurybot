@@ -6,7 +6,7 @@ import { Icon } from '../components/Icon';
 import { useAuth } from '../context/AuthContext';
 import { useLang } from '../context/LangContext';
 
-const SUPPORT_LINK = 'https://t.me/certifiedclobot';
+const SUPPORT_LINK = 'tg://resolve?domain=certifiedclobot';
 
 export function Settings() {
   const navigate = useNavigate();

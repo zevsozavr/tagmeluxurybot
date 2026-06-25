@@ -12,7 +12,7 @@ import { useLang } from '../context/LangContext';
 export function Storefront() {
   const navigate = useNavigate();
   const { totalItems } = useCart();
-  const { products, categories, collection } = useData();
+  const { products, categories, collection, offers } = useData();
   const { t } = useLang();
   const productsRef = useRef<HTMLDivElement>(null);
 
@@ -55,6 +55,24 @@ export function Storefront() {
             </Glass>
           </section>
           </>)}
+          {collection.enabled && <div style={{ height: 24 }} />}
+
+          {/* Active Offers */}
+          {offers.filter((o) => o.active).length > 0 && (
+            <section style={{ marginTop: collection.enabled ? 0 : 28 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {offers.filter((o) => o.active).map((offer) => (
+                  <Glass key={offer.id} glow style={{ borderRadius: 'var(--rounded-lg)', padding: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div>
+                      <p style={{ font: 'var(--font-label)', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 2 }}>{offer.title}</p>
+                      <p style={{ font: 'var(--font-body-sm)', color: 'var(--on-surface-variant)' }}>{offer.description}</p>
+                    </div>
+                    {offer.code && <div style={{ padding: '6px 12px', borderRadius: 'var(--radius-full)', background: 'rgba(197,234,255,0.1)', border: '1px solid rgba(197,234,255,0.2)', font: 'var(--font-label)', color: 'var(--primary)', fontSize: 12, letterSpacing: '0.05em' }}>{offer.code}</div>}
+                  </Glass>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Categories */}
           <section style={{ marginTop: 28 }}>

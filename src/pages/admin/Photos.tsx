@@ -57,17 +57,6 @@ export function AdminPhotos() {
             </Glass>
           ))}
         </div>
-
-        <div style={{ marginTop: 32 }}>
-          <h4 style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>{t('admin.photos.available')}</h4>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
-            {defaultImages.map((url, i) => (
-              <div key={i} style={{ aspectRatio: '3/4', borderRadius: 'var(--rounded-md)', overflow: 'hidden', border: '1px solid var(--glass-border)' }}>
-                <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-            ))}
-          </div>
-        </div>
       </main>
     </div>
   );
